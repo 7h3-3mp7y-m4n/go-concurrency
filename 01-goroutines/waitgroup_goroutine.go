@@ -35,10 +35,10 @@ func waitHello() {
 }
 
 /** A better helloWaitGroup (){
-	for i := 0; i < 5; i++ {
-		go func() {
-			fmt.Println(i)
-		}()
+for i := 0; i < 5; i++ {
+		go func(n int) {
+			fmt.Println(n)
+		}(i) // Passing i as argument
 	}
 
 	time.Sleep(time.Second * 1)
