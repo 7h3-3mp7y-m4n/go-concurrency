@@ -12,6 +12,7 @@ const (
 )
 
 func main() {
+	test()
 	jobs := make(chan int)
 	var wg sync.WaitGroup
 
@@ -38,4 +39,22 @@ func worker(id int, jobs <-chan int, wg *sync.WaitGroup) {
 		fmt.Printf("Worker %d finished job %d\n", id, job)
 		wg.Done() // Signal this job is done
 	}
+}
+
+func test() {
+	newwork := 10
+	newJobs := 20
+
+	jobies := make(chan int)
+	var wg sync.WaitGroup
+	for i := 1; i <= newwork; i++ {
+		go worker(i, jobies, &wg)
+	}
+	for j := 1; j <= newJobs; j++ {
+		wg.Add(1)
+		jobies <- j
+	}
+	close(jobies)
+	wg.Wait()
+	fmt.Println("the second version is done!")
 }
